@@ -1,6 +1,6 @@
 # Use a temporary builder stage to copy files from the volume
 # Use a base image with Maven already installed
-FROM maven:3.8.3-openjdk-8 as builder
+FROM maven:3.8.3 as builder
 
 # Set the working directory in the builder stage
 WORKDIR /app
