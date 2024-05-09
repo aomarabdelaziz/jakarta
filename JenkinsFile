@@ -10,7 +10,8 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t maven-builder -f Dockerfile.mavenBuilder ."
-                    sh 'docker run -v $PWD/webapp/target:/app/webapp/target -v $PWD/server/target:/app/server/target maven-builder '
+                    //sh 'docker run --rm -v $PWD/webapp/target:/app/webapp/target -v $PWD/server/target:/app/server/target maven-builder'
+                    sh ' docker run -it --rm  -v shared-data:/app maven-builder'
                   
                     app = docker.build("${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}", ".")
                     docker.withRegistry('https://registry.hub.docker.co', 'docker-hub-credentials') {
