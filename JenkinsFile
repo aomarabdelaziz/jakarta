@@ -31,5 +31,12 @@ pipeline {
                 }
             }
         }
+         stage('Launch another downstream ansible pipeline') {
+            steps {
+                script {
+                      build job: 'ansible-pipeline'
+                }
+            }
+        }
     }
 }
