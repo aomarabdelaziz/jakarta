@@ -5,6 +5,13 @@ pipeline {
         DOCKER_IMAGE_NAME = "tomcat-webapp" // Replace with your Docker image name
         COMMIT_SHA = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
     }
+     stage('Launch another downstream ansible pipeline for server configuration') {
+            steps {
+                script {
+                     // build job: 'ansible-pipeline'
+                }
+            }
+        }
     stages {
         stage('Building Stage') {
             steps {
@@ -31,12 +38,6 @@ pipeline {
                 }
             }
         }
-         stage('Launch another downstream ansible pipeline') {
-            steps {
-                script {
-                      build job: 'ansible-pipeline'
-                }
-            }
-        }
+        
     }
 }
