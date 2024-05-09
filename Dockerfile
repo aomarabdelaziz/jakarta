@@ -13,8 +13,9 @@ COPY ./server ./server
 COPY ./webapp ./webapp
 
 # Download dependencies and plugins needed for building
-RUN mvn dependency:go-offline \
-    mvn package
+RUN mvn dependency:go-offline 
+
+RUN mvn package
 
 
 # Second stage: Runtime stage
