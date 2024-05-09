@@ -7,15 +7,12 @@ WORKDIR /app
 # Copy the pom.xml file to the container
 COPY ./pom.xml ./
 
-# Download dependencies and plugins needed for building
-RUN mvn dependency:go-offline
-
 # Copy the rest of the project files to the container
 COPY ./server ./server
 COPY ./webapp ./webapp
 
-
-
+# Download dependencies and plugins needed for building
+RUN mvn dependency:go-offline
 
 # Start Tomcat
 CMD ["mvn" , "package"]
