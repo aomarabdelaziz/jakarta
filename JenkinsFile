@@ -1,11 +1,36 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_HUB_REPO = "abdelazizomar" // Replace with your Docker Hub username
+        DOCKER_IMAGE_NAME = "tomcat-webapp" // Replace with your Docker image name
+        COMMIT_SHA = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+    }
     stages {
-        stage('Install Stage') {
+        stage('Building Stage') {
             steps {
-                sh 'docker build -t maven-builder -f Dockerfile.mavenBuilder . '
+                script {
+                    sh "docker build -t maven-builder -f Dockerfile.mavenBuilder ."
+                    sh 'docker run maven-builder'
+                  
+                    app = docker.build("${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}", ".")
+                    docker.withRegistry('https://registry.hub.docker.co', 'docker-hub-credentials') {
+                       app.push()
+                    }
+
+                    sh 'docker run --network=host ${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}'
+                }
             }
         }
-        
+        // stage('Deploy Stage') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+        //                 docker.image("${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}").push()
+        //                 docker.image("${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:latest").push()
+        //             }
+        //             sh 'docker run --network=host ${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:latest'
+        //         }
+        //     }
+        // }
     }
 }
