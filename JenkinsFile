@@ -21,11 +21,12 @@ pipeline {
                     //sh 'docker run --network=host ${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}'
 
                     app = docker.build("${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}", ".")
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                       app.push()
-                    }
+                    // docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                    //    app.push()
+                    // }
 
-                    sh 'docker run -d --network=host ${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}'
+                    sh 'docker rm -f webapp'
+                    sh 'docker run -d --network=host --name=webapp ${DOCKER_HUB_REPO}/${DOCKER_IMAGE_NAME}:${COMMIT_SHA}'
 
 
                 }
