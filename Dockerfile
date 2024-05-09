@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./pom.xml ./server/ ./webapp/ ./ 
 
 # Download dependencies and plugins needed for building
-RUN mvn -B -e -C dependency:go-offline package
+RUN mvn dependency:go-offline package
 
 # Second stage: Runtime stage
 FROM tomcat:latest
