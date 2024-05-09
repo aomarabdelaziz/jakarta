@@ -16,7 +16,7 @@ WORKDIR /app
 RUN chown -R maven-nonroot:maven-nonroot /app
 
 # Switch to the non-root user
-USER nonroot
+USER maven-nonroot
 
 # Copy the pom.xml file to the container
 COPY ./pom.xml ./
