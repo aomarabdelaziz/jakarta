@@ -11,8 +11,8 @@ COPY ./pom.xml ./
 RUN mvn dependency:go-offline
 
 # Copy the rest of the project files to the container
-COPY ./server ./app/server
-COPY ./webapp ./app/webapp
+COPY ./server ./
+COPY ./webapp ./
 
 # Start Tomcat
 CMD ["mvn" , "package"]
