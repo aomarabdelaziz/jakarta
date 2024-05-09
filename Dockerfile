@@ -22,7 +22,7 @@ RUN mvn package
 FROM tomcat:latest
 
 # Copy files from the temporary builder stage
-COPY --from=builder /app/webapp/*.war /usr/local/tomcat/webapps/
+COPY --from=builder /app/webapp/target/webapp.war /usr/local/tomcat/webapps/
 
 # Modify Tomcat configuration
 RUN sed -i 's/port="8080"/port="4287"/' ${CATALINA_HOME}/conf/server.xml
