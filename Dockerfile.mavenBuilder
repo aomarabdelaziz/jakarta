@@ -9,11 +9,10 @@ COPY ./pom.xml ./
 
 # Copy the rest of the project files to the container
 COPY ./server ./app/server
-COPY ./webapp ./web/webapp
+COPY ./webapp ./app/webapp
 
 # Download dependencies and plugins needed for building
 RUN mvn dependency:go-offline
-
 
 
 # Start Tomcat
