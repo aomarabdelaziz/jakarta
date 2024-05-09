@@ -1,5 +1,5 @@
 # Use a base image with Maven already installed
-FROM maven:3.8.3-openjdk-17
+FROM maven:3.8.3-openjdk-8
 
 # Set the working directory in the builder stage
 WORKDIR /app
@@ -11,8 +11,8 @@ COPY ./pom.xml ./
 RUN mvn dependency:go-offline
 
 # Copy the rest of the project files to the container
-COPY ./server ./server
-COPY ./webapp ./webapp
+COPY ./server ./app/server
+COPY ./webapp ./app/webapp
 
 # Start Tomcat
 CMD ["mvn" , "package"]
